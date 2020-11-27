@@ -15,8 +15,10 @@ const startMapComponent = () =>{
     // Build html
     _buildMapSection();
 
+    // Load Map
+
     // Take data
-    _getMapName();
+    //_getMapName();
 
     // Print data
 
@@ -50,12 +52,18 @@ const _printMapName = (nameHtml) => {
     $('#map_section').html(nameHtml);
 }
 
+// Functionalities
+const _loadMap = () => {
+
+    //
+}
+
 // API
 const _getMapName = () => {
     setTimeout(
         () => {
             let name = "Map Component";
-            
+
             let mapName = _buildMapName(name);
             _printMapName(mapName);
         },
