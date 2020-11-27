@@ -1,5 +1,7 @@
 
-
+/**
+ * This is the entry point for the webapp
+ */
 const startChicagoHotelSecurityApp = () =>{
 
     console.log("Sito avviato!");
@@ -9,12 +11,13 @@ const startChicagoHotelSecurityApp = () =>{
     // Generate hotel price and stars
 
     // Start the webapp
-    // setTimeout(
-    //     () => {
-    //         startMapComponent();
-    //     },
-    //     3000,
-    // )
+    setTimeout(
+        () => {
+            startMapComponent();
+            
+        },
+        3000,
+    )
     
 
 }
