@@ -17,10 +17,11 @@ const startMapComponent = () =>{
 
 
     // Build html
-    _buildMapSection();
+   // _buildMapSection();
 
     // Load Map
 
+    _loadMap();
     // Take data
     //_getMapName();
 
@@ -75,7 +76,13 @@ const _printMapName = (nameHtml) => {
  */
 const _loadMap = () => {
 
-    //
+    var map = new L.Map('map_placeholder');
+    var url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var attrib = 'Map data (c)OpenStreetMap contributors';
+    var osm = new L.TileLayer(url, {minZoom: 8, maxZoom: 16, attribution: attrib});
+    map.setView(new L.LatLng(41.85,-87.65),12);
+    map.addLayer(osm);
+     L.marker([41.85,-87.65]).addTo(map).bindPopup("I’m here!");
 }
 
 // API
