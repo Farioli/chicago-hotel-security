@@ -6,7 +6,10 @@ const startChicagoHotelSecurityApp = () =>{
 
     console.log("Sito avviato!");
 
+    call(_printCrimesData);
+
     // Fetch chicago data
+    startFilterComponent();
 
     // Generate hotel price and stars
 
@@ -20,4 +23,9 @@ const startChicagoHotelSecurityApp = () =>{
     )
     
 
+}
+
+const _printCrimesData = (crimesData) => {
+
+    console.log(crimesData);
 }
