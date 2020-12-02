@@ -10,6 +10,8 @@ var mapState = {
     "crimes" : [],
 }
 
+var MAP;
+
 /**
  * This starts the map component by building it and taking data for map
  */
@@ -22,8 +24,8 @@ const startMapComponent = () =>{
     // Load Map
 
     _loadMap();
-    // Take data
-    //_getMapName();
+
+    _loadHotels();
 
     // Print data
 
@@ -50,51 +52,23 @@ const _buildMapContainer = () => {
     return html;
 }
 
-/**
- * 
- * @param {*} name 
- * Function to print dynamically content in the component
- */
-const _buildMapName = (name) => {
-
-    let html = '<h1>'+ name + '</h1>';
-    return html;
-}
-
-/**
- * Prints the data into the map component
- * @param {*} nameHtml 
- */
-const _printMapName = (nameHtml) => {
-
-    $('#map_section').html(nameHtml);
-}
-
 // Functionalities
 /**
  * This function builds the Leaflet map into the component
  */
 const _loadMap = () => {
 
-    var map = new L.Map('map_placeholder');
-    var url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    var attrib = 'Map data (c)OpenStreetMap contributors';
-    var osm = new L.TileLayer(url, {minZoom: 8, maxZoom: 16, attribution: attrib});
-    map.setView(new L.LatLng(41.85,-87.65),12);
-    map.addLayer(osm);
-     L.marker([41.85,-87.65]).addTo(map).bindPopup("I’m here!");
+    MAP = new L.Map('map_placeholder');
+    let url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    let attrib = 'Map data (c)OpenStreetMap contributors';
+    let osm = new L.TileLayer(url, {minZoom: 8, maxZoom: 16, attribution: attrib});
+    MAP.setView(new L.LatLng(41.85,-87.65),12);
+    MAP.addLayer(osm);
 }
 
-// API
-const _getMapName = () => {
-    setTimeout(
-        () => {
-            let name = "Map Component";
+const _loadHotels = () => {
 
-            let mapName = _buildMapName(name);
-            _printMapName(mapName);
-        },
-        3000,
-    )
+    // Caricamento dei pin degli hotel
+
+    L.marker([41.85,-87.65]).addTo(MAP).bindPopup("I’m here!");
 }
-

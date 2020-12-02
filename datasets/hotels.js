@@ -1,4 +1,4 @@
-{
+var HOTELS = {
     "meta" : {
       "view" : {
         "id" : "vcf9-ubdz",

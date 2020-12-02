@@ -1,24 +1,13 @@
 
+
+const filtersState = {
+  "hotelStars" : 1,
+}
+
 const startFilterComponent = () => {
 
   _buildFiltersSection();
-                          
 
-  //                       </br></br>
-
-  //                           <!--Filtro seleziona per stelle-->
-  //                           <div class="dropdown">
-  //                               <button onclick="myFunctionStars()" class="dropbtn">Numero di stelle</button>
-  //                               <div id="filterStars" class="dropdown-content">
-  //                                   <a href="#"> 1 </a>
-  //                                   <a href="#"> 2</a>
-  //                                   <a href="#"> 3</a>
-  //                                   <a href="#"> 4</a>
-  //                                   <a href="#"> 5</a>
-  //                               </div>
-
-  //                           </div>
-  //                       </br></br></br>
 
   //                           <!--Filtro seleziona per prezzo-->
   //                           <div class="dropdown">
@@ -31,36 +20,23 @@ const startFilterComponent = () => {
   //                               </div>
 
   //                           </div>
-  //                       </br></br></br>
-
-  //                           <!--Filtro seleziona per crimini-->
-  //                           <div>
-  //                               <button onclick="dropDown(event);" class="menu-btn" type="button">
-  //                                   Tipo di crimini &#9013;
-  //                               </button>
-  //                               <div class="d-none shadow rounded menu">
-  //                                   <span class="d-block menu-option"><label><input type="checkbox">&nbsp;
-  //                                       Murder</label></span>
-  //                                       <span class="d-block menu-option"><label><input type="checkbox">&nbsp;
-  //                                           Sex Abuse</label></span>
-  //                                           <span class="d-block menu-option"><label><input type="checkbox">&nbsp;
-  //                                               Robbery</label></span>
-  //                               </div>
-  //                           </div>
-  //                           <div class="d-none" id="overlay" onclick="hide(event)"></div>
-  //                   </div>
 }
 
 const _buildFiltersSection = () => {
   
   let filters = _buildHotelAutocomplete();
-  $('#filters').html(filters);
+  
+  filters += _buildHotelStarsFilter();
+
+  filters += _buildCrimesFilter(getCrimesTypologies());
+  
+  $('#filters_placeholder').html(filters);
 }
 
 // Returns the html for the autocomplete of the hotels
 const _buildHotelAutocomplete = () => {
      
-  let autocompleteHtml = '<div class="col-12">';
+  let autocompleteHtml = '<div class="col-12 pb-3">';
   autocompleteHtml += '   <form autocomplete="off" action="/action_page.php">';
   autocompleteHtml += '    <div class="autocomplete" style="width:150px;">';
   autocompleteHtml += '     <input id="myInput" type="text" name="myHotel" placeholder="Cerca hotel">';
@@ -70,4 +46,60 @@ const _buildHotelAutocomplete = () => {
   autocompleteHtml += '   </div>';
 
   return autocompleteHtml;
+}
+
+const _buildHotelStarsFilter = () => {
+     
+
+  let html = '<div class="col-12 form-group pb-3">';
+
+  html += '     <label for="filter_hotel_stars">Numero di stelle</label>';
+  html += '     <select id="filter_hotel_stars" class="form-control" onChange="_updateFilters()">';
+
+  for(let i = 1; i < 6; i++){
+    
+    html += '       <option value="'+i+'">'+i+'</option>';
+  }
+  
+  html += '     </select>';
+
+  html += '   </div>';
+  return html;
+}
+
+/**
+ * Returns the html for the crimes filter typologies
+ * @param {*} crimesTypologies : an array of the crimes typologies
+ */
+const _buildCrimesFilter = (crimesTypologies) => {
+     
+
+  let html = '<div class="col-12 form-group pb-3">';
+
+  html += '     <label for="filter_crime_type">Tipologia di crimine</label>';
+  html += '     <select multiple id="filter_crime_type" class="form-control">';
+
+  for(let i = 0; i < crimesTypologies.length; i++){
+    
+    html += '       <option value="'+crimesTypologies[i]+'">'+crimesTypologies[i]+'</option>';
+  }
+  
+  html += '     </select>';
+
+  html += '   </div>';
+  return html;
+}
+
+const _updateFilters = () => {
+
+  // Takes the current value for the input with the #id
+  let newHotelStars = $('#filter_hotel_stars').val();
+
+
+  // Set attributes into the component state
+  filtersState.hotelStars = newHotelStars;
+
+  console.log(filtersState);
+
+  console.log(filtersState.hotelStars);
 }
