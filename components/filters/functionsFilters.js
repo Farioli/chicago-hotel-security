@@ -82,6 +82,7 @@ return html;
  * Returns the html for the crimes filter typologies
  * @param {*} crimes : an array of the crimes typologies
  */
+// crimes è l'array di crimini senza duplicati(vedi funzione getCrimesTypologies)
 const _buildCrimesFilter = (crimes) => {
      
 
