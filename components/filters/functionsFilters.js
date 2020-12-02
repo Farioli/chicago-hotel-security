@@ -2,24 +2,14 @@
 
 const filtersState = {
   "hotelStars" : 1,
+  "hotelPrice" :1,
+  "crimesSelected" :[]
 }
 
 const startFilterComponent = () => {
 
   _buildFiltersSection();
 
-
-  //                           <!--Filtro seleziona per prezzo-->
-  //                           <div class="dropdown">
-  //                               <button onclick="myFunctionPrice()" class="dropbtn">Prezzo</button>
-  //                               <div id="filterPrice" class="dropdown-content">
-  //                                   <a href="#"> fino a 20$ </a>
-  //                                   <a href="#"> meno di 50$</a>
-  //                                   <a href="#"> 50-100$ </a>
-  //                                   <a href="#"> più di 100$ </a>
-  //                               </div>
-
-  //                           </div>
 }
 
 const _buildFiltersSection = () => {
@@ -27,6 +17,8 @@ const _buildFiltersSection = () => {
   let filters = _buildHotelAutocomplete();
   
   filters += _buildHotelStarsFilter();
+
+  filters += _buildHotelPriceFilters();
 
   filters += _buildCrimesFilter(getCrimesTypologies());
   
@@ -67,11 +59,30 @@ const _buildHotelStarsFilter = () => {
   return html;
 }
 
+const _buildHotelPriceFilters = () => {
+ let prices = ["fino a 20$","50$", "da 50$ a 100$", "più di 100$"];
+ let html = '<div class="col-12 form-group pb-3">';
+
+ html += '     <label for="filter_hotel_price">Prezzo</label>';
+ html += '     <select id="filter_hotel_price" class="form-control" onChange="_updateFilters()">';
+
+  for(let i = 0; i < 4; i++){
+    
+    html += '       <option value="'+prices[i]+'">'+ prices[i]+'</option>';
+  }
+  
+  html += '     </select>';
+
+  html += '   </div>';
+  return html;
+return html;
+}
+
 /**
  * Returns the html for the crimes filter typologies
- * @param {*} crimesTypologies : an array of the crimes typologies
+ * @param {*} crimes : an array of the crimes typologies
  */
-const _buildCrimesFilter = (crimesTypologies) => {
+const _buildCrimesFilter = (crimes) => {
      
 
   let html = '<div class="col-12 form-group pb-3">';
@@ -79,9 +90,9 @@ const _buildCrimesFilter = (crimesTypologies) => {
   html += '     <label for="filter_crime_type">Tipologia di crimine</label>';
   html += '     <select multiple id="filter_crime_type" class="form-control">';
 
-  for(let i = 0; i < crimesTypologies.length; i++){
+  for(let i = 0; i < crimes.length; i++){
     
-    html += '       <option value="'+crimesTypologies[i]+'">'+crimesTypologies[i]+'</option>';
+    html += '       <option value="'+crimes[i]+'">'+crimes[i]+'</option>';
   }
   
   html += '     </select>';
@@ -94,10 +105,12 @@ const _updateFilters = () => {
 
   // Takes the current value for the input with the #id
   let newHotelStars = $('#filter_hotel_stars').val();
+  let newHotelPrice =$('#filter_hotel_price').val();
 
 
   // Set attributes into the component state
   filtersState.hotelStars = newHotelStars;
+  filtersState.hotelPrice = newHotelPrice;
 
   console.log(filtersState);
 

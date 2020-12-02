@@ -29,15 +29,22 @@ const _setCrimesData = (crimesData) => {
 }
 
 const getCrimesTypologies = () => {
-
     let crimesTypologies = [];
-
+    let mappa = {}
     let crimes = appState.crimes;
-
     for(let i = 0; i < crimes.length; i++){
-        
         crimesTypologies.push(crimes[i]._primary_decsription);
-    }
+    } 
 
-    return crimesTypologies;
-}
+    for(let j = 0; j < crimesTypologies.length; j++){
+        mappa[crimesTypologies[j]] = crimesTypologies[j];
+    } 
+    
+    crimes = new Array();
+    for ( var key in mappa )
+    crimes.push(mappa[key]);
+   
+  return crimes;
+ }
+
+ 
