@@ -1,12 +1,7 @@
 
 // Map Component State Object
 var mapState = {
-    "hotels" : [{
-        "name" : "A Chicago hotel",
-        "stars" : 5,
-        "latitude" : 43.2131231,
-        "longitude" : 9.213123123,
-    }],
+    "hotels" : [],
     "crimes" : [],
 }
 
@@ -69,41 +64,71 @@ const _loadMap = () => {
 }
 
 const _loadHotels = () => {
-    let lati=getLatitude();
-    let longi=getLongitude();
-    let nome=getName();
 
-    for(let j=0;j<lati.length;j++){
-     L.marker([lati[j],longi[j]]).addTo(MAP).bindPopup(nome[j]);
+    mapState.hotels = [];
+    
+    // let lati = getLatitude();
+    // let longi = getLongitude();
+    // let nome = getName();
+
+    for(let i = 0; i < HOTELS.data.length; i++){
+
+        let lat = HOTELS.data[i][36];
+        let lon = HOTELS.data[i][37];
+        let name = HOTELS.data[i][12];
+
+        let stars = getRandomStars(lat, lon);
+        
+        if(lat != null && lon != null){
+
+            mapState.hotels.push({
+                latitude: lat,
+                longitude: lon,
+                name: name,
+                stars: stars,
+            });
+            
+            L.marker([lat, lon]).addTo(MAP).bindPopup(name + "\n" + "stelle:" + stars);
+        }
 
     }
     
 }
-const getLatitude=() => {
-    let datas=[];
-    let latitudeHotel = [];
-    datas.push(HOTELS.data);
-    for (let i=0; i<datas.length;i++){
-        latitudeHotel.push(datas[38]);
-    }
-    return(latitudeHotel);
-    }
 
-    const getLongitude=() => {
+function getRandomStars(lat, lon) {
+    
+    // TODO: generate random values based on distance with center of chicago
+    
+    min = Math.ceil(1);
+    max = Math.floor(5);
+    return Math.floor(Math.random() * (max - min) + min);
+  }
 
-    let longitudeHotel = [];
-    for (let i=0; i<datas.length;i++){
-        longitudeHotel.push(datas[39]);
-    }
-    return(longitudeHotel);
-        }
+// const getHotelField = (index) => {
+//     let datas=[];
+//     let latitudeHotel = [];
+//     datas.push(HOTELS.data);
+//     for (let i=0; i<datas.length;i++){
+//         latitudeHotel.push(datas[index]);
+//     }
+//     return(latitudeHotel);
+//     }
 
-const getName=() => {
+//     const getLongitude=() => {
 
-    let nameHotel = [];
-    for (let i=0; i<datas.length;i++){
-        nameHotel.push(datas[13]);
-    }
-    return(nameHotel);
-        }
+//     let longitudeHotel = [];
+//     for (let i=0; i<datas.length;i++){
+//         longitudeHotel.push(datas[39]);
+//     }
+//     return(longitudeHotel);
+//         }
+
+// const getName=() => {
+
+//     let nameHotel = [];
+//     for (let i=0; i<datas.length;i++){
+//         nameHotel.push(datas[13]);
+//     }
+//     return(nameHotel);
+//         }
 
