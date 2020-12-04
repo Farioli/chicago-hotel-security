@@ -45,6 +45,7 @@ const getCrimesTypologies = () => {
     crimes.push(mappa[key]);
    
   return crimes;
+
  }
 
- 
+
