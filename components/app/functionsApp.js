@@ -47,5 +47,7 @@ const getCrimesTypologies = () => {
   return crimes;
 
  }
+ 
+
 
 
