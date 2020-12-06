@@ -98,11 +98,9 @@ function autocomplete(inp, arr) {
     });
   }
   
-  /*An array containing all the country names in the world:*/
-  var countries = [" Hotel Chicago New", "Hotel Luxury", "Hotel schifoso", "Hotel Maximo", "Hotel Eden"];
   
   /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-  autocomplete(document.getElementById("myInput"), countries);
+  // autocomplete(document.getElementById("myInput"), countries);
   
   /* funzione che serve al filtro stelle */
   /* When the user clicks on the button,

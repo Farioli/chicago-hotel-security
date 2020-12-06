@@ -5,27 +5,30 @@ var mapState = {
     "crimes": [],
 }
 
+var hotelsParsed = [];
+
 var MAP;
+
+var MARKER = [];
+var heatMapLayer;
+
+var HOTELS_NAMES = [];
+
+
 
 /**
  * This starts the map component by building it and taking data for map
  */
 const startMapComponent = () => {
 
-
-    // Build html
-    // _buildMapSection();
-
-    // Load Map
+    _cleanHotelDataset();
 
     _loadMap();
 
-    _loadHotels();
+    _loadHotels(mapState.hotels);
    
-    _loadHeatMap();
+    _loadHeatMap(appState.crimes);
   
-
-
     console.log("Avvia la mappa");
 }
 
@@ -49,6 +52,23 @@ const _buildMapContainer = () => {
     return html;
 }
 
+const _resetMap = () => {
+
+    _resetHotelsMarker();
+
+    heatMapLayer.remove();
+}
+
+const _resetHotelsMarker = () => {
+
+    for(let i = 0; i < MARKER.length; i++){
+
+        MARKER[i].remove();
+    }
+
+    MARKER = [];
+}
+
 // Functionalities
 /**
  * This function builds the Leaflet map into the component
@@ -61,65 +81,50 @@ const _loadMap = () => {
     let osm = new L.TileLayer(url, { minZoom: 8, maxZoom: 16, attribution: attrib });
     MAP.setView(new L.LatLng(41.85, -87.65), 11);
     MAP.addLayer(osm);
-
-
+    
+    MAP.on('click', _addInspectionArea);
 }
 
-const _loadHotels = () => {
+const _loadHotels = (hotels) => {
 
-    mapState.hotels = [];
+    for (let i = 0; i < hotels.length; i++) {
 
-    // let lati = getLatitude();
-    // let longi = getLongitude();
-    // let nome = getName();
+        let lat = hotels[i].latitude;
+        let lon = hotels[i].longitude;
+        let name = hotels[i].name;
+        let stars = hotels[i].stars;
+        let price = hotels[i].price;
 
-    for (let i = 0; i < HOTELS.data.length; i++) {
+        let newMarker = L.marker([lat, lon]).addTo(MAP).bindPopup(name + "\n" + "stars: " + stars + ' | price:'+ price);
 
-        let lat = HOTELS.data[i][36];
-        let lon = HOTELS.data[i][37];
-        let name = HOTELS.data[i][12];
-
-        let stars = getRandomStars(lat, lon);
-
-        if (lat != null && lon != null) {
-
-            mapState.hotels.push({
-                latitude: lat,
-                longitude: lon,
-                name: name,
-                stars: stars,
-            });
-
-            L.marker([lat, lon]).addTo(MAP).bindPopup(name + "\n" + "stelle:" + stars);
-        }
-
+        MARKER.push(newMarker);
     }
-
 }
 
-const _loadHeatMap = () => {
+const _loadHeatMap = (crimes) => {
 
     let osmLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data (c)OpenStreetMap contributors'
     }).addTo(MAP);
-
-    crimes = appState.crimes;
+    
     let points = []
+    
     crimes.forEach(d => {
+        
         if (isNaN(parseFloat(d.longitude)) || isNaN(parseFloat(d.latitude))) {
             return
-        }
-        else {
-            points.push([d.latitude, d.longitude,10])
+        } else {
+            points.push([d.latitude, d.longitude, 10]);
         }
     })
 
-    let heat = L.heatLayer(points,{gradient:{0.4: 'yellow', 0.65: 'orange', 1: 'red'} }).addTo(MAP);
+    heatMapLayer = L.heatLayer(points,{gradient:{0.4: 'yellow', 0.65: 'orange', 1: 'red'} }).addTo(MAP);
 }
 
 
 
-
+const centerChicagoLat = 41.85003;
+const centerChicagoLng = -87.65005;
 
 function getRandomStars(lat, lon) {
 
@@ -130,31 +135,144 @@ function getRandomStars(lat, lon) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-// const getHotelField = (index) => {
-//     let datas=[];
-//     let latitudeHotel = [];
-//     datas.push(HOTELS.data);
-//     for (let i=0; i<datas.length;i++){
-//         latitudeHotel.push(datas[index]);
-//     }
-//     return(latitudeHotel);
-//     }
+const updateMap = (newFilters) => {
 
-//     const getLongitude=() => {
+    _resetMap();
 
-//     let longitudeHotel = [];
-//     for (let i=0; i<datas.length;i++){
-//         longitudeHotel.push(datas[39]);
-//     }
-//     return(longitudeHotel);
-//         }
+    _filterHotels(newFilters.hotelStars, newFilters.hotelPrice);
 
-// const getName=() => {
+    _filterCrimes(newFilters.crimesSelected);
+}
 
-//     let nameHotel = [];
-//     for (let i=0; i<datas.length;i++){
-//         nameHotel.push(datas[13]);
-//     }
-//     return(nameHotel);
-//         }
+const _filterHotels = (filteredStars, filterPrice) => {
 
+    let filteredHotels = [];
+
+    for (let i = 0; i < hotelsParsed.length; i++) {
+
+        let correct = true;
+
+        if(filteredStars != "" && hotelsParsed[i].stars != filteredStars){
+
+            correct = false;
+        }
+
+        if(_rankHotelPrice(hotelsParsed[i].price) != filterPrice){
+            
+            correct = false;
+        }
+        
+        if(correct){
+            
+            filteredHotels.push(hotelsParsed[i]);
+        }
+
+    }
+
+    mapState.hotels = filteredHotels;
+    
+    // _loadMap();
+    _loadHotels(mapState.hotels);
+}
+
+const _filterCrimes = (filterCrimesTypologies) => {
+
+    let filteredCrimes = [];
+
+    for (let i = 0; i < appState.crimes.length; i++) {
+
+        if(filterCrimesTypologies.includes(appState.crimes[i]._primary_decsription)){
+            
+            filteredCrimes.push(appState.crimes[i]);
+        }
+    }
+    
+    _loadHeatMap(filteredCrimes);
+}
+
+const _cleanHotelDataset = () => {
+
+    mapState.hotels = [];
+    HOTELS_NAMES = [];
+
+    for (let i = 0; i < HOTELS.data.length; i++) {
+
+        let lat = HOTELS.data[i][36];
+        let lon = HOTELS.data[i][37];
+        let name = HOTELS.data[i][12];
+
+        let stars = getRandomStars(lat, lon);
+        let price = Math.floor(Math.random() * (120 - 10) + 10);
+
+        if (lat != null && lon != null) {
+
+            HOTELS_NAMES.push(name);
+
+            mapState.hotels.push({
+                latitude: lat,
+                longitude: lon,
+                name: name,
+                stars: stars,
+                price: price,
+            });
+        }
+
+    }
+
+    hotelsParsed = mapState.hotels;
+    autocomplete(document.getElementById("myInput"), HOTELS_NAMES);
+}
+
+// Utility
+const _rankHotelPrice = (hotelPrice) => {
+
+    let rank = 0;
+
+    if(hotelPrice < 20){
+
+        rank = 0;
+    }
+
+    if(hotelPrice >= 20 && hotelPrice < 50){
+
+        rank = 1;
+    }
+
+    if(hotelPrice >= 50 && hotelPrice < 100){
+
+        rank = 2;
+    }
+
+    if(hotelPrice >= 100){
+
+        rank = 3;
+    }
+
+    return rank;
+}
+
+const goToHotels = () => {
+    
+    let name = $('#myInput').val();
+
+    let lat = 0;
+    let long = 0;
+
+    let found = false;
+
+    for(let i = 0; i < hotelsParsed.length; i++){
+
+        if(hotelsParsed[i].name === name){
+
+            found = true;
+            lat = hotelsParsed[i].latitude;
+            long = hotelsParsed[i].longitude;
+            break;
+        }
+    }
+
+    if(found){
+        
+        MAP.setView([lat, long], 18);
+    }
+}
