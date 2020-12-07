@@ -23,13 +23,14 @@ const _addInspectionArea = (event) => {
     let radius = 500;
 
     INSPECTION_AREA = L.circle(event.latlng, {
-        color: 'red',
-        fillColor: '#f03',
+        color: 'black',
+        fillColor: 'black',
         fillOpacity: 0.5,
         radius: radius
     }).addTo(MAP);
 
     _inspectionMapData(event.latlng.lat, event.latlng.lng, radius);
+    _inspectionCrimes(event.latlng.lat, event.latlng.lng, radius);
 
     INSPECTION_MODE = false;
 }
@@ -88,8 +89,29 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     let d = R * c; // Distance in km
     return d;
 }
+function deg2rad(deg){
+    return deg * (Math.PI/180);
+}
 
-function deg2rad(deg) {
-    
-    return deg * (Math.PI / 180)
+const _inspectionCrimes = (latitude, longitude, radius) => {
+
+    console.log(latitude, longitude, radius);
+
+    let filteredCrimes = [];
+
+    for (let i = 0; i < appState.crimes.length; i++) {
+
+
+        if (_checkIfInDistance(latitude, longitude, radius,appState.crimes[i].latitude,appState.crimes[i].longitude)) {
+
+            filteredCrimes.push(appState.crimes[i]);
+        }
+
+    }
+
+    appState.crimes = filteredCrimes;
+
+    _loadHeatMap(appState.crimes);
+
+    startInspectorDashboard();
 }

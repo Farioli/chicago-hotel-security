@@ -142,6 +142,7 @@ const updateMap = (newFilters) => {
     _filterHotels(newFilters.hotelStars, newFilters.hotelPrice);
 
     _filterCrimes(newFilters.crimesSelected);
+    
 }
 
 const _filterHotels = (filteredStars, filterPrice) => {
@@ -173,10 +174,12 @@ const _filterHotels = (filteredStars, filterPrice) => {
     
     // _loadMap();
     _loadHotels(mapState.hotels);
+
 }
 
 const _filterCrimes = (filterCrimesTypologies) => {
 
+    
     let filteredCrimes = [];
 
     for (let i = 0; i < appState.crimes.length; i++) {
@@ -218,6 +221,7 @@ const _cleanHotelDataset = () => {
         }
 
     }
+
 
     hotelsParsed = mapState.hotels;
     autocomplete(document.getElementById("myInput"), HOTELS_NAMES);

@@ -47,7 +47,14 @@ const getCrimesTypologies = () => {
   return crimes;
 
  }
- 
+ const  tutticrimini= () => {
+    let crimesTypologies = [];
+    let crimes = appState.crimes;
+    for(let i = 0; i < crimes.length; i++){
+        crimesTypologies.push(crimes[i]._primary_decsription);
+    } 
+    return crimesTypologies;
+}
 
 
 

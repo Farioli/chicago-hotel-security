@@ -1,7 +1,7 @@
 const filtersState = {
-  "hotelStars" : 1,
-  "hotelPrice" :1,
-  "crimesSelected" :[]
+  "hotelStars": 1,
+  "hotelPrice": 1,
+  "crimesSelected": []
 }
 
 const startFilterComponent = () => {
@@ -11,9 +11,9 @@ const startFilterComponent = () => {
 }
 
 const _buildFiltersSection = () => {
-  
+
   let filters = _buildHotelAutocomplete();
-  
+
   filters += _buildHotelStarsFilter();
 
   filters += _buildHotelPriceFilters();
@@ -21,13 +21,15 @@ const _buildFiltersSection = () => {
   filters += _buildCrimesFilter(getCrimesTypologies());
 
   filters += _buildInspectorMode();
-  
+  filters += _buildButtonReset();
+
+
   $('#filters_placeholder').html(filters);
 }
 
 // Returns the html for the autocomplete of the hotels
 const _buildHotelAutocomplete = () => {
-     
+
   let autocompleteHtml = '<div class="col-12 pb-3">';
   autocompleteHtml += '   <form autocomplete="off">';
   autocompleteHtml += '    <div class="autocomplete" style="width:150px;">';
@@ -41,18 +43,18 @@ const _buildHotelAutocomplete = () => {
 }
 
 const _buildHotelStarsFilter = () => {
-     
+
 
   let html = '<div class="col-12 form-group pb-3">';
 
   html += '     <label for="filter_hotel_stars">Numero di stelle</label>';
   html += '     <select id="filter_hotel_stars" class="form-control" onChange="_updateFilters()">';
 
-  for(let i = 1; i < 6; i++){
-    
-    html += '       <option value="'+i+'">'+i+'</option>';
+  for (let i = 1; i < 6; i++) {
+
+    html += '       <option value="' + i + '">' + i + '</option>';
   }
-  
+
   html += '     </select>';
 
   html += '   </div>';
@@ -60,23 +62,23 @@ const _buildHotelStarsFilter = () => {
 }
 
 const _buildHotelPriceFilters = () => {
- 
+
   let prices = ["fino a 20$", "from 20$ to 50$", "da 50$ a 100$", "più di 100$"];
- let html = '<div class="col-12 form-group pb-3">';
+  let html = '<div class="col-12 form-group pb-3">';
 
- html += '     <label for="filter_hotel_price">Prezzo</label>';
- html += '     <select id="filter_hotel_price" class="form-control" onChange="_updateFilters()">';
+  html += '     <label for="filter_hotel_price">Prezzo</label>';
+  html += '     <select id="filter_hotel_price" class="form-control" onChange="_updateFilters()">';
 
-  for(let i = 0; i < 4; i++){
-    
-    html += '       <option value="'+[i]+'">'+ prices[i]+'</option>';
+  for (let i = 0; i < 4; i++) {
+
+    html += '       <option value="' + [i] + '">' + prices[i] + '</option>';
   }
-  
+
   html += '     </select>';
 
   html += '   </div>';
   return html;
-return html;
+  return html;
 }
 
 /**
@@ -85,18 +87,18 @@ return html;
  */
 // crimes è l'array di crimini senza duplicati(vedi funzione getCrimesTypologies)
 const _buildCrimesFilter = (crimes) => {
-     
+
 
   let html = '<div class="col-12 form-group pb-3">';
 
   html += '     <label for="filter_crime_type">Tipologia di crimine</label>';
   html += '     <select multiple id="filter_crime_type" class="form-control" onChange="_updateFilters()">';
 
-  for(let i = 0; i < crimes.length; i++){
-    
-    html += '       <option value="'+crimes[i]+'">'+crimes[i]+'</option>';
+  for (let i = 0; i < crimes.length; i++) {
+
+    html += '       <option value="' + crimes[i] + '">' + crimes[i] + '</option>';
   }
-  
+
   html += '     </select>';
 
   html += '   </div>';
@@ -125,4 +127,9 @@ const _updateFilters = () => {
   filtersState.crimesSelected = newCrimesTypologies;
 
   updateMap(filtersState);
+}
+const _buildButtonReset = () => {
+  let html = '<div class="col-12 form-group pb-3">';
+  html += '<button type="button" onClick="window.location.reload();"> Reset Filters</button>';
+  return html;
 }
