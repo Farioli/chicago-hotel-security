@@ -1,38 +1,36 @@
+var MY_CHART = null;
+
 const startInspectorDashboard = () => {
 
-    _buildInspectorDashboard();
+    // Populate graph data
     _createChart();
 
-    // Populate graph data
 
-    $('#inspection_panel').modal();
-}
-const _buildInspectorDashboard = () => {
-    let html = '<div id="inspection_panel" class="modal" tabindex="-1" role="dialog">';
-    html += '<div class="modal-dialog modal-xl" role="document">';
-    html += '<div class="modal-content">';
-    html += '<div class="modal-header">';
-    html += ' <h5 class="modal-title">Ispeziona dintorni</h5>';
-    html += '     <button type="button" class="close" data-dismiss="modal" aria-label="Close">';
-    html += '   <span aria-hidden="true">&times;</span>';
-    html += '   </button>';
-    html += ' </div>';
-    html += ' </div>';
-    html += ' </div>';
-    html += ' </div>';
-    return html;
-
+    setTimeout(
+        () => {
+            $('#inspection_panel').modal();
+        }, 2000,
+    );
 }
 
 const _createChart = () => {
 
-    var ctx = document.getElementById('myChart').getContext('2d');
-    let crimini = getCrimesTypologies();
-    let data = _Crimini();
-    var myChart = new Chart(ctx, {
+    MY_CHART.destroy();
+
+    // Reset of graphs
+    MY_CHART = null;
+    $('#myChart').html('');
+
+    let ctx = document.getElementById('myChart').getContext('2d');
+    
+    let crimesTypologiesLabels = getCrimesTypologies();
+    
+    let data = _getCrimes();
+    
+    MY_CHART = new Chart(ctx, {
         type: 'horizontalBar',
         data: {
-            labels: crimini,
+            labels: crimesTypologiesLabels,
             datasets: [{
                 label: '# of Crimes',
                 data: data,
@@ -67,18 +65,22 @@ const _createChart = () => {
     });
 
 }
-const _Crimini = () => {
-    let crimes = tutticrimini();
+const _getCrimes = () => {
+    let crimes = _getAllCrimesTypologies();
+    
     var result = {};
+    
     var crimNum = [];
+    
     crimes.forEach(function (x) {
+        
         result[x] = (result[x] || 0) + 1;
-
     });
-    for (var key in result) {
+    
+    for (let key in result) {
+        
         crimNum.push(result[key]);
     }
-
 
     return crimNum;
 }

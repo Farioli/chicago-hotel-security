@@ -6,15 +6,10 @@ var mapState = {
 }
 
 var hotelsParsed = [];
-
 var MAP;
-
 var MARKER = [];
 var heatMapLayer;
-
 var HOTELS_NAMES = [];
-
-
 
 /**
  * This starts the map component by building it and taking data for map
@@ -78,11 +73,13 @@ const _loadMap = () => {
     MAP = new L.Map('map_placeholder');
     let url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     let attrib = 'Map data (c)OpenStreetMap contributors';
-    let osm = new L.TileLayer(url, { minZoom: 8, maxZoom: 16, attribution: attrib });
+    let osm = new L.TileLayer(url, { minZoom: 11, maxZoom: 16, attribution: attrib });
     MAP.setView(new L.LatLng(41.85, -87.65), 11);
     MAP.addLayer(osm);
+    MAP.setMaxBounds(MAP.getBounds());
     
     MAP.on('click', _addInspectionArea);
+    console.log(MAP.getZoom());
 }
 
 const _loadHotels = (hotels) => {
@@ -120,8 +117,6 @@ const _loadHeatMap = (crimes) => {
 
     heatMapLayer = L.heatLayer(points,{gradient:{0.4: 'yellow', 0.65: 'orange', 1: 'red'} }).addTo(MAP);
 }
-
-
 
 const centerChicagoLat = 41.85003;
 const centerChicagoLng = -87.65005;

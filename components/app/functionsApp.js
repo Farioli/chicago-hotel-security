@@ -47,7 +47,7 @@ const getCrimesTypologies = () => {
   return crimes;
 
  }
- const  tutticrimini= () => {
+ const  _getAllCrimesTypologies = () => {
     let crimesTypologies = [];
     let crimes = appState.crimes;
     for(let i = 0; i < crimes.length; i++){
