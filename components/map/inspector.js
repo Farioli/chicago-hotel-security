@@ -10,8 +10,8 @@ const startInspectionMode = () => {
     }
 
     INSPECTION_MODE = true;
-
-    console.log(INSPECTION_MODE);
+    $('#inspection_range').val(100);
+    $('#inspection_section').show();
 }
 
 const _addInspectionArea = (event) => {
@@ -20,7 +20,12 @@ const _addInspectionArea = (event) => {
         return;
     }
 
-    let radius = 500;
+    let radius = $('#inspection_range').val();
+
+    if(radius < 0 || radius == null || radius == ""){
+        radius = 100;
+        $('#inspection_range').val(radius);
+    }
 
     INSPECTION_AREA = L.circle(event.latlng, {
         color: 'black',
@@ -35,10 +40,7 @@ const _addInspectionArea = (event) => {
     INSPECTION_MODE = false;
 }
 
-//TODO: update crimes with geo filters
 const _inspectionMapData = (latitude, longitude, radius) => {
-
-    console.log(latitude, longitude, radius);
 
     let filteredHotels = [];
 
@@ -64,8 +66,6 @@ const _checkIfInDistance = (centerLat, centerLng, radius, elemLat, elemLng) => {
 
     let distance = getDistanceFromLatLonInKm(centerLat, centerLng, elemLat, elemLng);
 
-    console.log(distance);
-
     if (distance <= radius / 1000) {
         return true;
     } else {
@@ -89,20 +89,19 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     let d = R * c; // Distance in km
     return d;
 }
+
 function deg2rad(deg){
     return deg * (Math.PI/180);
 }
 
 const _inspectionCrimes = (latitude, longitude, radius) => {
 
-    console.log(latitude, longitude, radius);
-
     let filteredCrimes = [];
 
     for (let i = 0; i < appState.crimes.length; i++) {
 
 
-        if (_checkIfInDistance(latitude, longitude, radius,appState.crimes[i].latitude,appState.crimes[i].longitude)) {
+        if (_checkIfInDistance(latitude, longitude, radius, appState.crimes[i].latitude,appState.crimes[i].longitude)) {
 
             filteredCrimes.push(appState.crimes[i]);
         }

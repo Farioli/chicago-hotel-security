@@ -22,10 +22,10 @@
     crossorigin=""></script>
 
   <!-- Import librerie per heatmap -->
-  <script src="leaflet-heat.js"></script>
+  <script src="lib/leaflet-heat.js"></script>
 
   <!-- Import librerie per Inspection -->
-  <script src="Chart.min.js"></script>
+  <script src="lib/Chart.min.js"></script>
 
   <!-- Import file / link javascript -->
 
@@ -62,18 +62,19 @@
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Ispeziona dintorni</h5>
+          <h5 class="modal-title text-center">Inspect surroundings</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div id="inspector_dashboard_placeholder" class="modal-body">
-          <div id="container" style="width: 75%;">
+          <div id="container" class="m-auto" style="width: 75%;">
             <canvas id="myChart" width="400" height="400"></canvas>
+            <div id="ok_zone_message" class="text-center p-5">
+                <img src="assets/green_check.png" width="300" height="300"/>
+                <h1>This is a safe zone!</h1>
+            </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -81,7 +82,7 @@
 
   <div class="container-fluid" style="height: 100vh">
     <div class="row">
-      <div class="col-3" style="background-color:grey;">
+      <div class="col-3 col-md-2" style="background-color:grey;">
         <div style="height: 100vh; background-color:grey;">
 
           <div class="row p-4">
@@ -96,7 +97,7 @@
         </div>
       </div>
       <!--Qui è visualizzata la mappa-->
-      <div id="map_placeholder" class="col-9">
+      <div id="map_placeholder" class="col-9 col-md-10">
 
       </div>
     </div>

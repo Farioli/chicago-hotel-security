@@ -7,7 +7,7 @@ const filtersState = {
 const startFilterComponent = () => {
 
   _buildFiltersSection();
-
+  $('#inspection_section').hide();
 }
 
 const _buildFiltersSection = () => {
@@ -20,23 +20,28 @@ const _buildFiltersSection = () => {
 
   filters += _buildCrimesFilter(getCrimesTypologies());
 
-  filters += _buildInspectorMode();
   filters += _buildButtonReset();
+
+  filters += _buildInspectorMode();
+
 
 
   $('#filters_placeholder').html(filters);
+  $('#filters_reset').hide();
 }
 
 // Returns the html for the autocomplete of the hotels
 const _buildHotelAutocomplete = () => {
 
-  let autocompleteHtml = '<div class="col-12 pb-3">';
+  let autocompleteHtml = '<div class="col-8 pb-3">';
   autocompleteHtml += '   <form autocomplete="off">';
   autocompleteHtml += '    <div class="autocomplete" style="width:150px;">';
   autocompleteHtml += '     <input id="myInput" type="text" name="myHotel" placeholder="Cerca hotel">';
   autocompleteHtml += '    </div>';
-  autocompleteHtml += '    <button type="button" onClick="goToHotels()">Search</button>';
   autocompleteHtml += '   </form>';
+  autocompleteHtml += '   </div>';
+  autocompleteHtml += '   <div class="col-4 pb-3">';
+  autocompleteHtml += '     <button type="button" class="btn btn-primary" onClick="goToHotels()">Go</button>';
   autocompleteHtml += '   </div>';
 
   return autocompleteHtml;
@@ -44,12 +49,13 @@ const _buildHotelAutocomplete = () => {
 
 const _buildHotelStarsFilter = () => {
 
-
   let html = '<div class="col-12 form-group pb-3">';
 
-  html += '     <label for="filter_hotel_stars">Numero di stelle</label>';
+  html += '     <label for="filter_hotel_stars">Stars</label>';
   html += '     <select id="filter_hotel_stars" class="form-control" onChange="_updateFilters()">';
-
+  
+  html += '         <option value="">All</option>';
+  
   for (let i = 1; i < 6; i++) {
 
     html += '       <option value="' + i + '">' + i + '</option>';
@@ -63,11 +69,13 @@ const _buildHotelStarsFilter = () => {
 
 const _buildHotelPriceFilters = () => {
 
-  let prices = ["fino a 20$", "from 20$ to 50$", "da 50$ a 100$", "più di 100$"];
+  let prices = ["below 20$", "from 20$ to 50$", "from 50$ to 100$", "over 100$"];
   let html = '<div class="col-12 form-group pb-3">';
 
-  html += '     <label for="filter_hotel_price">Prezzo</label>';
+  html += '     <label for="filter_hotel_price">Price</label>';
   html += '     <select id="filter_hotel_price" class="form-control" onChange="_updateFilters()">';
+
+    html += '       <option value="">All</option>';
 
   for (let i = 0; i < 4; i++) {
 
@@ -77,7 +85,6 @@ const _buildHotelPriceFilters = () => {
   html += '     </select>';
 
   html += '   </div>';
-  return html;
   return html;
 }
 
@@ -91,7 +98,7 @@ const _buildCrimesFilter = (crimes) => {
 
   let html = '<div class="col-12 form-group pb-3">';
 
-  html += '     <label for="filter_crime_type">Tipologia di crimine</label>';
+  html += '     <label for="filter_crime_type">Crime Typology</label>';
   html += '     <select multiple id="filter_crime_type" class="form-control" onChange="_updateFilters()">';
 
   for (let i = 0; i < crimes.length; i++) {
@@ -107,8 +114,12 @@ const _buildCrimesFilter = (crimes) => {
 
 const _buildInspectorMode = () => {
 
-  let inspectorButton = '<div class="col-12 pb-3">';
-  inspectorButton += '    <button type="button" onClick="startInspectionMode()">Ispeziona</button>';
+  let inspectorButton = '<div class="col-12 form-group">';
+  inspectorButton += '    <button type="button" class="btn btn-info" onClick="startInspectionMode()">Inspects</button>';
+  inspectorButton += '   </div>';
+  inspectorButton += '   <div id="inspection_section" class="col-12 pb-3 form-group">';
+  inspectorButton += '    <label for="inspection_range">Range (m)</label>'
+  inspectorButton += '    <input id="inspection_range" type="number" onClick="startInspectionMode()" min="1"/>';
   inspectorButton += '   </div>';
 
   return inspectorButton;
@@ -126,10 +137,19 @@ const _updateFilters = () => {
   filtersState.hotelPrice = newHotelPrice;
   filtersState.crimesSelected = newCrimesTypologies;
 
+  if(newHotelStars != null || newHotelPrice != null || newCrimesTypologies.length > 1){
+    $('#filters_reset').show(1000);
+  } else {
+    $('#filters_reset').hide();
+  }
+
   updateMap(filtersState);
 }
+
 const _buildButtonReset = () => {
-  let html = '<div class="col-12 form-group pb-3">';
-  html += '<button type="button" onClick="window.location.reload();"> Reset Filters</button>';
+  
+  let html = '<div id="filters_reset" class="col-12 form-group pb-3">';
+  html += '     <button type="button" class="btn btn-danger" onClick="window.location.reload();">Reset Filters</button>';
+  html += '   </div>';
   return html;
 }

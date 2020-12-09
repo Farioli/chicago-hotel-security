@@ -2,20 +2,33 @@ var MY_CHART = null;
 
 const startInspectorDashboard = () => {
 
-    // Populate graph data
-    _createChart();
+    let crimes =  _getCrimes();
+
+    $('#myChart').hide();
+    $('#ok_zone_message').hide();
+
+    if(crimes.length > 0){
+        _createChart(crimes);
+        $('#myChart').show();
+    } else {
+
+        $('#ok_zone_message').show();
+    }
 
 
     setTimeout(
         () => {
             $('#inspection_panel').modal();
-        }, 2000,
+        }, 1000,
     );
 }
 
-const _createChart = () => {
+const _createChart = (data) => {
 
-    MY_CHART.destroy();
+    if(MY_CHART != null){
+
+        MY_CHART.destroy();
+    }
 
     // Reset of graphs
     MY_CHART = null;
@@ -24,8 +37,6 @@ const _createChart = () => {
     let ctx = document.getElementById('myChart').getContext('2d');
     
     let crimesTypologiesLabels = getCrimesTypologies();
-    
-    let data = _getCrimes();
     
     MY_CHART = new Chart(ctx, {
         type: 'horizontalBar',
@@ -58,6 +69,11 @@ const _createChart = () => {
                 yAxes: [{
                     ticks: {
                         beginAtZero: true
+                    }
+                }],
+                xAxes : [{
+                    ticks: {
+                        stepSize: 1,
                     }
                 }]
             }

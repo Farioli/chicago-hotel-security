@@ -123,10 +123,22 @@ const centerChicagoLng = -87.65005;
 
 function getRandomStars(lat, lon) {
 
-    // TODO: generate random values based on distance with center of chicago
+    distance = getDistanceFromLatLonInKm(lat, lon, centerChicagoLat, centerChicagoLng);
+
+    if(distance < 1){
+        min = 3;
+        max = 5;
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+
+    if(distance < 3){
+        min = 2;
+        max = 4;
+        return Math.floor(Math.random() * (max - min) + min);
+    }
 
     min = Math.ceil(1);
-    max = Math.floor(5);
+    max = Math.floor(3);
     return Math.floor(Math.random() * (max - min) + min);
 }
 
@@ -135,7 +147,6 @@ const updateMap = (newFilters) => {
     _resetMap();
 
     _filterHotels(newFilters.hotelStars, newFilters.hotelPrice);
-
     _filterCrimes(newFilters.crimesSelected);
     
 }
@@ -153,7 +164,7 @@ const _filterHotels = (filteredStars, filterPrice) => {
             correct = false;
         }
 
-        if(_rankHotelPrice(hotelsParsed[i].price) != filterPrice){
+        if(filterPrice != "" && _rankHotelPrice(hotelsParsed[i].price) != filterPrice){
             
             correct = false;
         }
@@ -166,25 +177,27 @@ const _filterHotels = (filteredStars, filterPrice) => {
     }
 
     mapState.hotels = filteredHotels;
-    
-    // _loadMap();
     _loadHotels(mapState.hotels);
 
 }
 
 const _filterCrimes = (filterCrimesTypologies) => {
 
-    
     let filteredCrimes = [];
 
-    for (let i = 0; i < appState.crimes.length; i++) {
+    if(filterCrimesTypologies.length < 1){
+        
+        filteredCrimes = appState.crimes;
+    }else {
 
-        if(filterCrimesTypologies.includes(appState.crimes[i]._primary_decsription)){
-            
-            filteredCrimes.push(appState.crimes[i]);
+        for (let i = 0; i < appState.crimes.length; i++) {
+
+            if(filterCrimesTypologies.includes(appState.crimes[i]._primary_decsription)){
+                
+                filteredCrimes.push(appState.crimes[i]);
+            }
         }
     }
-    
     _loadHeatMap(filteredCrimes);
 }
 
