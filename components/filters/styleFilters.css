@@ -304,3 +304,11 @@ input[type=submit] {
     height: 100%;
     z-index: 100;
 }
+label {
+ 
+  color:#f400a1;
+  font-size: 20px;
+}
+
+
+
