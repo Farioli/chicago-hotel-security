@@ -37,7 +37,7 @@ const _buildHotelAutocomplete = () => {
   let autocompleteHtml = '<div class="col-9 pb-3">';
   autocompleteHtml += '   <form autocomplete="off">';
   autocompleteHtml += '    <div class="autocomplete" style="width:280px;">';
-  autocompleteHtml += '     <input id="myInput" type="text" name="myHotel" placeholder="Insert hotels name">';
+  autocompleteHtml += '     <input id="myInput" type="text" name="myHotel" placeholder="Insert hotel name">';
   autocompleteHtml += '    </div>';
   autocompleteHtml += '   </form>';
   autocompleteHtml += '   </div>';

@@ -11,11 +11,6 @@ var MARKER = [];
 var heatMapLayer;
 var HOTELS_NAMES = [];
 
-
-var bronzeIcon;
-var silverIcon;
-var goldIcon;
-
 /**
  * This starts the map component by building it and taking data for map
  */
@@ -30,26 +25,6 @@ const startMapComponent = () => {
     _loadHeatMap(appState.crimes);
 
     console.log("Avvia la mappa");
-}
-
-// HTML functions
-/**
- * Main function to build the map html layout
- * This function takes all the results of the functions that build map piece (es. _buildMapContainer) and then print
- * them in the app.html container "map_placeholder"
- */
-const _buildMapSection = () => {
-
-    let mapSection = '';
-    mapSection += _buildMapContainer();
-
-    $('#map_placeholder').html(mapSection);
-}
-
-const _buildMapContainer = () => {
-    let html = '<div id="map_section">';
-    html += '   </div>';
-    return html;
 }
 
 const _resetMap = () => {
@@ -103,39 +78,8 @@ const _loadMap = () => {
     MAP.on('click', _addInspectionArea);
     console.log(MAP.getZoom());
 
-    // Custom leaflet marker
 
-    goldIcon = L.icon({
-        iconUrl: './assets/gold_poi.png',
-
-        iconSize: [20, 35], // size of the icon
-        shadowSize: [0, 0], // size of the shadow
-        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-        shadowAnchor: [4, 62],  // the same for the shadow
-        popupAnchor: [-10, -86] // point from which the popup should open relative to the iconAnchor
-    });
-
-    silverIcon = L.icon({
-        iconUrl: './assets/silver_poi.png',
-
-        iconSize: [20, 35], // size of the icon
-        shadowSize: [0, 0], // size of the shadow
-        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-        shadowAnchor: [4, 62],  // the same for the shadow
-        popupAnchor: [-10, -86] // point from which the popup should open relative to the iconAnchor
-    });
-
-    bronzeIcon = L.icon({
-        iconUrl: './assets/bronze_poi.png',
-
-        iconSize: [20, 35], // size of the icon
-        shadowSize: [0, 0], // size of the shadow
-        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-        shadowAnchor: [4, 62],  // the same for the shadow
-        popupAnchor: [-10, -86] // point from which the popup should open relative to the iconAnchor
-    });
 }
-
 
 const _loadHotels = (hotels) => {
 
@@ -147,21 +91,27 @@ const _loadHotels = (hotels) => {
         let stars = hotels[i].stars;
         let price = hotels[i].price;
 
-        // let icon = { icon: bronzeIcon };
-        // console.log(stars)
+        let hotelIcon = { icon: bronzeIcon };
+        console.log(stars)
 
-        // if (stars === "5") {
-        //     icon = { icon: goldIcon };
-        // }
+        if (stars === "5") {
+            hotelIcon = { icon: goldIcon };
+        }
 
-        // if (stars === "4" || stars === "3") {
-        //     icon = { icon: silverIcon };
-        // }
+        if (stars === "4" || stars === "3") {
+            hotelIcon = { icon: silverIcon };
+        }
 
         // { icon: icon }
 
-        let newMarker = L.marker([lat, lon],).addTo(MAP).bindPopup(
-            '<div style="font-size: 20px"><h6 style="font-weight: bold";>' + name + "</h6>" + "<label>stars</label>: " + stars + '<br><label>price</label>: $' + price + '</div>');
+        let hotelInfos = `<div style="font-size: 20px">
+                            <div class="hotel-name">${name}</div>
+                            <div>Stars : ${stars}</div>
+                            <div>Price : $ ${price}</div>
+                        </div>`
+
+
+        let newMarker = L.marker([lat, lon], { icon: hotelIcon }).addTo(MAP).bindPopup(hotelInfos);
         MARKER.push(newMarker);
     }
 }
@@ -357,3 +307,41 @@ const goToHotels = () => {
         MAP.setView([lat, long], 18);
     }
 }
+
+// Custom leaflet marker
+
+var goldIcon = L.icon({
+
+    iconUrl: './assets/gold_poi.png',
+
+    iconSize: [20, 35], // size of the icon
+    shadowSize: [0, 0], // size of the shadow
+    iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor: [-10, -86] // point from which the popup should open relative to the iconAnchor
+
+});
+
+var silverIcon = L.icon({
+
+    iconUrl: './assets/silver_poi.png',
+
+    iconSize: [20, 35], // size of the icon
+    shadowSize: [0, 0], // size of the shadow
+    iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor: [-10, -86] // point from which the popup should open relative to the iconAnchor
+
+});
+
+var bronzeIcon = L.icon({
+
+    iconUrl: './assets/bronze_poi.png',
+
+    iconSize: [20, 35], // size of the icon
+    shadowSize: [0, 0], // size of the shadow
+    iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor: [-10, -86] // point from which the popup should open relative to the iconAnchor
+
+});
