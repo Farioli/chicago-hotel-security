@@ -3,7 +3,7 @@ Progetto per il corso di **Visualizzazione delle Informazioni (2019-2020)**
 
 ## Homepage 
 
-!(/assets/screenshot.png "Chicago app security screenshot")
+![](/assets/screenshot.png "Chicago app security screenshot")
 
 
 ## Descrizione del progetto
