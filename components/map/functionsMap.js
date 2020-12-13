@@ -236,15 +236,18 @@ const _cleanHotelDataset = () => {
 
         if (lat != null && lon != null) {
 
-            HOTELS_NAMES.push(name);
+            if(HOTELS_NAMES.filter(el => el === name).length === 0){
 
-            mapState.hotels.push({
-                latitude: lat,
-                longitude: lon,
-                name: name,
-                stars: stars,
-                price: price,
-            });
+                HOTELS_NAMES.push(name);
+
+                mapState.hotels.push({
+                    latitude: lat,
+                    longitude: lon,
+                    name: name,
+                    stars: stars,
+                    price: price,
+                });
+            }
         }
 
     }
