@@ -2,7 +2,12 @@
     background-color: bisque;
 }
 
+.hotel-popup {
+    font-size: 16px;
+}
+
 .hotel-name {
 
-    
+    font-weight: bold;
+    font-size: 20px;
 }

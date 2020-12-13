@@ -83,31 +83,6 @@ const _loadMap = () => {
 
 const _loadHotels = (hotels) => {
 
-    // Custom leaflet marker
-    var HotelIcon = L.Icon.extend({
-        options: {
-
-            iconSize: [20, 35], // size of the icon
-            shadowSize: [0, 0], // size of the shadow
-            iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-            shadowAnchor: [4, 62],  // the same for the shadow
-            popupAnchor: [-10, -86] // point from which the popup should open relative to the iconAnchor
-        }
-    });
-
-    var goldIcon = new HotelIcon({
-
-        iconUrl: './assets/gold_poi.png',
-    });
-
-    var silverIcon = new HotelIcon({
-        iconUrl: './assets/silver_poi.png',
-    });
-
-    var bronzeIcon = new HotelIcon({
-        iconUrl: './assets/bronze_poi.png',
-    });
-
     for (let i = 0; i < hotels.length; i++) {
 
         let lat = hotels[i].latitude;
@@ -129,7 +104,7 @@ const _loadHotels = (hotels) => {
 
         // { icon: icon }
 
-        let hotelInfos = `<div style="font-size: 20px">
+        let hotelInfos = `<div class="hotel-popup">
                             <div class="hotel-name">${name}</div>
                             <div>Stars : ${stars}</div>
                             <div>Price : $ ${price}</div>
@@ -336,3 +311,27 @@ const goToHotels = () => {
     }
 }
 
+// Custom leaflet marker
+var HotelIcon = L.Icon.extend({
+    options: {
+
+        iconSize: [20, 35], // size of the icon
+        shadowSize: [0, 0], // size of the shadow
+        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor: [-10, -86] // point from which the popup should open relative to the iconAnchor
+    }
+});
+
+var goldIcon = new HotelIcon({
+
+    iconUrl: './assets/gold_poi.png',
+});
+
+var silverIcon = new HotelIcon({
+    iconUrl: './assets/silver_poi.png',
+});
+
+var bronzeIcon = new HotelIcon({
+    iconUrl: './assets/bronze_poi.png',
+});
