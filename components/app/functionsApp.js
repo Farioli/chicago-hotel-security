@@ -1,23 +1,17 @@
 
 const appState = {
-    "crimes" : [],
+    "crimes": [],
 }
 
 /**
  * This is the entry point for the webapp
  */
-const startChicagoHotelSecurityApp = () =>{
-
-    console.log("Sito avviato!");
+const startChicagoHotelSecurityApp = () => {
 
     call(_setCrimesData);
 
-    // Generate hotel price and stars
-
     // Start the webapp
     startMapComponent();
-    
-
 }
 
 const _setCrimesData = (crimesData) => {
@@ -32,29 +26,26 @@ const getCrimesTypologies = () => {
     let crimesTypologies = [];
     let mappa = {}
     let crimes = appState.crimes;
-    for(let i = 0; i < crimes.length; i++){
+    for (let i = 0; i < crimes.length; i++) {
         crimesTypologies.push(crimes[i]._primary_decsription);
-    } 
+    }
 
-    for(let j = 0; j < crimesTypologies.length; j++){
+    for (let j = 0; j < crimesTypologies.length; j++) {
         mappa[crimesTypologies[j]] = crimesTypologies[j];
-    } 
+    }
 
     crimes = new Array();
-    for ( var key in mappa )
-    crimes.push(mappa[key]);
-   
-  return crimes;
+    for (var key in mappa)
+        crimes.push(mappa[key]);
 
- }
- const  _getAllCrimesTypologies = () => {
+    return crimes;
+
+}
+const _getAllCrimesTypologies = () => {
     let crimesTypologies = [];
     let crimes = appState.crimes;
-    for(let i = 0; i < crimes.length; i++){
+    for (let i = 0; i < crimes.length; i++) {
         crimesTypologies.push(crimes[i]._primary_decsription);
-    } 
+    }
     return crimesTypologies;
 }
-
-
-

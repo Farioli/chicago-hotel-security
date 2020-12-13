@@ -21,6 +21,12 @@ input[type=submit] {
   background-color: DodgerBlue;
   color: #fff;
 }
+
+.filter-container {
+  background-image:url('/assets/bg-chicago.jpg');
+  border-right: 3px solid black;
+}
+
 .autocomplete-items {
   position: absolute;
   border: 1px solid #d4d4d4;
@@ -304,3 +310,11 @@ input[type=submit] {
     height: 100%;
     z-index: 100;
 }
+label {
+ 
+  color:black;
+  font-size: 20px;
+}
+
+
+

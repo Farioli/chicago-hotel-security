@@ -12,6 +12,20 @@ const startInspectionMode = () => {
     INSPECTION_MODE = true;
     $('#inspection_range').val(100);
     $('#inspection_section').show();
+    $('#reset_inspect_section').show();
+}
+
+const resetInspectMode = () => {
+
+    if (INSPECTION_AREA != null) {
+
+        INSPECTION_AREA.remove();
+    }
+
+    INSPECTION_MODE = false;
+
+    $('#reset_inspect_section').hide();
+    $('#inspection_section').hide();
 }
 
 const _addInspectionArea = (event) => {
@@ -22,7 +36,7 @@ const _addInspectionArea = (event) => {
 
     let radius = $('#inspection_range').val();
 
-    if(radius < 0 || radius == null || radius == ""){
+    if (radius < 0 || radius == null || radius == "") {
         radius = 100;
         $('#inspection_range').val(radius);
     }
@@ -76,7 +90,7 @@ const _checkIfInDistance = (centerLat, centerLng, radius, elemLat, elemLng) => {
 }
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-    
+
     let R = 6371; // Radius of the earth in km
     let dLat = deg2rad(lat2 - lat1);  // deg2rad below
     let dLon = deg2rad(lon2 - lon1);
@@ -90,8 +104,8 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     return d;
 }
 
-function deg2rad(deg){
-    return deg * (Math.PI/180);
+function deg2rad(deg) {
+    return deg * (Math.PI / 180);
 }
 
 const _inspectionCrimes = (latitude, longitude, radius) => {
@@ -101,7 +115,7 @@ const _inspectionCrimes = (latitude, longitude, radius) => {
     for (let i = 0; i < appState.crimes.length; i++) {
 
 
-        if (_checkIfInDistance(latitude, longitude, radius, appState.crimes[i].latitude,appState.crimes[i].longitude)) {
+        if (_checkIfInDistance(latitude, longitude, radius, appState.crimes[i].latitude, appState.crimes[i].longitude)) {
 
             filteredCrimes.push(appState.crimes[i]);
         }
