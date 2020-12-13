@@ -1,6 +1,7 @@
 
 const appState = {
     "crimes": [],
+    "defaultCrimes" : [], // Here goes all the initial crimes
 }
 
 /**
@@ -17,6 +18,7 @@ const startChicagoHotelSecurityApp = () => {
 const _setCrimesData = (crimesData) => {
 
     appState.crimes = crimesData;
+    appState.defaultCrimes = crimesData;
 
     // Fetch chicago data
     startFilterComponent();
@@ -48,4 +50,9 @@ const _getAllCrimesTypologies = () => {
         crimesTypologies.push(crimes[i]._primary_decsription);
     }
     return crimesTypologies;
+}
+
+const resetHotelsAndCrimes = () => {
+
+    appState.crimes = appState.defaultCrimes;
 }

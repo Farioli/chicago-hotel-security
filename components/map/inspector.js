@@ -26,6 +26,8 @@ const resetInspectMode = () => {
 
     $('#reset_inspect_section').hide();
     $('#inspection_section').hide();
+    resetHotelsAndCrimes();
+    startMapComponent();
 }
 
 const _addInspectionArea = (event) => {
@@ -71,7 +73,8 @@ const _inspectionMapData = (latitude, longitude, radius) => {
     mapState.hotels = filteredHotels;
 
     _resetHotelsMarker();
-    _loadHotels(mapState.hotels);
+    
+    _loadHotelsOnMap(mapState.hotels);
 
     startInspectorDashboard();
 }

@@ -20,7 +20,7 @@ const startMapComponent = () => {
 
     _loadMap();
 
-    _loadHotels(mapState.hotels);
+    _loadHotelsOnMap(mapState.hotels);
 
     _loadHeatMap(appState.crimes);
 
@@ -50,25 +50,12 @@ const _resetHotelsMarker = () => {
  */
 const _loadMap = () => {
 
-    // MAP = new L.map('map_placeholder', { minZoom: 11, maxZoom: 16, attribution: 'Map data (c)OpenStreetMap contributors', fadeAnimation: false },).setView([41.85, -87.65], 11);
-    // let url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    // let osm = new L.TileLayer(url);
-
-
-    // // function init() {
-    // //     var map = L.map('map', { fadeAnimation: false }).setView([25, -4], 3);
-    // //     L.tileLayer.grayscale('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    // //         attribution: 'Map data &copy; <a href="http://openstreetmap.org/">OpenStreetMap</a> contributors',
-    // //         maxZoom: 14, minZoom: 2
-    // //     }).addTo(map);
-    // // }
-
-    // MAP.addLayer(osm);
-    // MAP.setMaxBounds(MAP.getBounds());
-    // MAP.on('click', _addInspectionArea);
+    if(MAP != null){
+        MAP.remove();
+    }
 
     MAP = new L.Map('map_placeholder');
-    let url = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png'; //'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    let url = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png';
     let attrib = 'Map data (c)OpenStreetMap contributors';
     let osm = new L.TileLayer(url, { minZoom: 11, maxZoom: 16, attribution: attrib });
     MAP.setView(new L.LatLng(41.85, -87.65), 11);
@@ -76,12 +63,9 @@ const _loadMap = () => {
     MAP.setMaxBounds(MAP.getBounds());
 
     MAP.on('click', _addInspectionArea);
-    console.log(MAP.getZoom());
-
-
 }
 
-const _loadHotels = (hotels) => {
+const _loadHotelsOnMap = (hotels) => {
 
     for (let i = 0; i < hotels.length; i++) {
 
@@ -116,10 +100,9 @@ const _loadHotels = (hotels) => {
     }
 }
 
-
 const _loadHeatMap = (crimes) => {
 
-    let osmLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png', {
         attribution: 'Map data (c)OpenStreetMap contributors'
     }).addTo(MAP);
 
@@ -196,7 +179,7 @@ const _filterHotels = (filteredStars, filterPrice) => {
     }
 
     mapState.hotels = filteredHotels;
-    _loadHotels(mapState.hotels);
+    _loadHotelsOnMap(mapState.hotels);
 
 }
 

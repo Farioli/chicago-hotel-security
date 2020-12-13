@@ -153,7 +153,7 @@ const _updateFilters = () => {
 const _buildButtonReset = () => {
 
   let html = '<div id="filters_reset" class="col-12 form-group pb-3">';
-  html += '     <button type="button" class ="btn" style="background-color:#f400a1" onClick="window.location.reload();">Reset Filters</button>';
+  html += '     <button type="button" class ="btn btn-danger" onClick="window.location.reload();">Reset Filters</button>';
   html += '   </div>';
   return html;
 }
