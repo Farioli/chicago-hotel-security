@@ -83,6 +83,31 @@ const _loadMap = () => {
 
 const _loadHotels = (hotels) => {
 
+    // Custom leaflet marker
+    var HotelIcon = L.Icon.extend({
+        options: {
+
+            iconSize: [20, 35], // size of the icon
+            shadowSize: [0, 0], // size of the shadow
+            iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+            shadowAnchor: [4, 62],  // the same for the shadow
+            popupAnchor: [-10, -86] // point from which the popup should open relative to the iconAnchor
+        }
+    });
+
+    var goldIcon = new HotelIcon({
+
+        iconUrl: './assets/gold_poi.png',
+    });
+
+    var silverIcon = new HotelIcon({
+        iconUrl: './assets/silver_poi.png',
+    });
+
+    var bronzeIcon = new HotelIcon({
+        iconUrl: './assets/bronze_poi.png',
+    });
+
     for (let i = 0; i < hotels.length; i++) {
 
         let lat = hotels[i].latitude;
@@ -94,11 +119,11 @@ const _loadHotels = (hotels) => {
         let hotelIcon = { icon: bronzeIcon };
         console.log(stars)
 
-        if (stars === "5") {
+        if (stars === 5) {
             hotelIcon = { icon: goldIcon };
         }
 
-        if (stars === "4" || stars === "3") {
+        if (stars === 4 || stars === 3) {
             hotelIcon = { icon: silverIcon };
         }
 
@@ -111,7 +136,7 @@ const _loadHotels = (hotels) => {
                         </div>`
 
 
-        let newMarker = L.marker([lat, lon], { icon: hotelIcon }).addTo(MAP).bindPopup(hotelInfos);
+        let newMarker = L.marker([lat, lon], hotelIcon).addTo(MAP).bindPopup(hotelInfos);
         MARKER.push(newMarker);
     }
 }
@@ -144,15 +169,15 @@ function getRandomStars(lat, lon) {
 
     distance = getDistanceFromLatLonInKm(lat, lon, centerChicagoLat, centerChicagoLng);
 
-    if (distance < 1) {
-        min = 3;
+    if (distance < 4) {
+        min = 4;
         max = 5;
         return Math.floor(Math.random() * (max - min) + min);
     }
 
-    if (distance < 3) {
+    if (distance < 6) {
         min = 2;
-        max = 4;
+        max = 3;
         return Math.floor(Math.random() * (max - min) + min);
     }
 
@@ -236,7 +261,7 @@ const _cleanHotelDataset = () => {
 
         if (lat != null && lon != null) {
 
-            if(HOTELS_NAMES.filter(el => el === name).length === 0){
+            if (HOTELS_NAMES.filter(el => el === name).length === 0) {
 
                 HOTELS_NAMES.push(name);
 
@@ -311,40 +336,3 @@ const goToHotels = () => {
     }
 }
 
-// Custom leaflet marker
-
-var goldIcon = L.icon({
-
-    iconUrl: './assets/gold_poi.png',
-
-    iconSize: [20, 35], // size of the icon
-    shadowSize: [0, 0], // size of the shadow
-    iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor: [-10, -86] // point from which the popup should open relative to the iconAnchor
-
-});
-
-var silverIcon = L.icon({
-
-    iconUrl: './assets/silver_poi.png',
-
-    iconSize: [20, 35], // size of the icon
-    shadowSize: [0, 0], // size of the shadow
-    iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor: [-10, -86] // point from which the popup should open relative to the iconAnchor
-
-});
-
-var bronzeIcon = L.icon({
-
-    iconUrl: './assets/bronze_poi.png',
-
-    iconSize: [20, 35], // size of the icon
-    shadowSize: [0, 0], // size of the shadow
-    iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor: [-10, -86] // point from which the popup should open relative to the iconAnchor
-
-});
