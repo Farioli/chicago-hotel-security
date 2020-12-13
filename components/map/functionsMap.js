@@ -86,8 +86,6 @@ const _loadHotelsOnMap = (hotels) => {
             hotelIcon = { icon: silverIcon };
         }
 
-        // { icon: icon }
-
         let hotelInfos = `<div class="hotel-popup">
                             <div class="hotel-name">${name}</div>
                             <div>Stars : ${stars}</div>

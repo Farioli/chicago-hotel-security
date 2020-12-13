@@ -1,1 +1,0 @@
-// FILES FOR COMMON FUNCTION (es. parsing of a string, calculate something, etc)
