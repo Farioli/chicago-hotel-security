@@ -3,7 +3,7 @@ Progetto per il corso di **Visualizzazione delle Informazioni (2019-2020)**
 
 ## Homepage 
 
-(/assets/screenshot.png "Chicago app security screenshot")
+!(/assets/screenshot.png "Chicago app security screenshot")
 
 
 ## Descrizione del progetto
@@ -12,7 +12,13 @@ Si sono analizzati i dati relativi agli hotel situati nei dintorni di Chicago e 
 
 L'utente può quindi cercare un hotel, visualizzarne la posizione dei vari hotels e alcuni dati relativi a loro, come stelle e prezzo giornaliero. Allo stesso tempo è possibile visualizzare quali crimini sono stati commessi vicino l'hotel di interesse grazie alla visualizzazione di una heatmap che rappresenta la densità di crimini commessi nelle varie aree.
 
-L'applicazione mostra la mappa di Chigaco con le informazioni estratte dai dataset e sulla sinistra offre una sezione dedicata ai filtri e alle operazioni che l'utente può effettuare sugli hotel o sui crimini di interesse. \
+L'applicazione mostra la mappa di Chigaco con le informazioni estratte dai dataset e sulla sinistra offre una sezione dedicata ai filtri e alle operazioni che l'utente può effettuare sugli hotel o sui crimini di interesse.
+
+Gli hotel sono rappresentati da marker che seguono la seguente colorazione:
+- Oro: 5 stelle
+- Argento: 3 e 4 stelle
+- Bronzo: 1 e 2 stelle
+
 In particolare sono presenti: 
 * un filtro che effettua una ricerca dell'hotel in base al nome e consente di effettuare il focus su questo hotel, 
 * un filtro che consente di filtrare gli hotel sulla mappa in base al numero di stelle
