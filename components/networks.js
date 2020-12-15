@@ -2,20 +2,11 @@
 
 const URL_GET_DATASET_CRIMES = "https://data.cityofchicago.org/resource/x2n5-8w5q.json";
 
-const start = () => {
-
-    showLoader();
-}
-
-const fail = () => {
-    hideLoader();
-}
-
 // main function to do backend calls
 // @Param loader: boolean to specify to handle the loader or not
 const call = (callback) => {
 
-    start();
+    
 
     $.ajax( {
         
@@ -37,7 +28,6 @@ const call = (callback) => {
                 callback(response); 
             } else {
 
-                fail();
                 console.error("Errore");
             }
         }
